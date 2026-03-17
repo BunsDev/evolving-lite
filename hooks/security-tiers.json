@@ -1,0 +1,272 @@
+{
+  "version": "1.0",
+  "description": "10-Tier Security Escalation System for Bash Commands",
+  "source": "Adapted from danielmiessler/Personal_AI_Infrastructure",
+
+  "tiers": {
+    "10": {
+      "name": "CATASTROPHIC",
+      "action": "BLOCK",
+      "exit_code": 2,
+      "description": "System destruction - immediate block, no override",
+      "patterns": [
+        "rm\\s+-rf\\s+/(?!tmp|var/tmp)",
+        "rm\\s+-rf\\s+\\*",
+        "rm\\s+-rf\\s+~",
+        "rm\\s+.*\\s+/\\s*$",
+        "rm\\s+.*\\s+~\\s*$",
+        "rm\\s+.*\\s+\\*\\s*$",
+        "rm\\s+-[rfRF]*[rfRF]+.*\\*",
+        "mkfs\\.",
+        "mkswap\\s",
+        "fdisk\\s",
+        "dd\\s+if=.*of=/dev/",
+        "dd\\s+of=/dev/",
+        ">\\s*/dev/sd[a-z]",
+        "wipefs",
+        "shred\\s+-[a-z]*\\s+/dev/",
+        ":(\\(\\))?\\s*\\{\\s*:\\s*\\|\\s*:\\s*&\\s*\\}",
+        ":(){ :|:& };:",
+        "mv\\s+/\\s+/dev/null",
+        "chmod\\s+-R\\s+000\\s+/",
+        "chmod\\s+(-R\\s+)?777\\s+/",
+        "chown\\s+(-R\\s+)?.*\\s+/$"
+      ]
+    },
+    "9": {
+      "name": "REVERSE_SHELL",
+      "action": "BLOCK",
+      "exit_code": 2,
+      "description": "Remote access/reverse shell - immediate block",
+      "patterns": [
+        "nc\\s+-[a-z]*e",
+        "nc\\s+.*-e\\s+/bin/",
+        "bash\\s+-i\\s+>&\\s+/dev/tcp/",
+        "bash\\s+/dev/tcp/",
+        "python.*socket.*connect",
+        "perl.*socket.*connect",
+        "ruby.*TCPSocket",
+        "php.*fsockopen",
+        "\\|\\s*nc\\s+",
+        "mkfifo.*nc"
+      ]
+    },
+    "8": {
+      "name": "CODE_EXEC",
+      "action": "BLOCK",
+      "exit_code": 2,
+      "description": "Remote code execution - immediate block",
+      "patterns": [
+        "curl.*\\|\\s*bash",
+        "curl.*\\|\\s*sh",
+        "wget.*\\|\\s*bash",
+        "wget.*\\|\\s*sh",
+        "eval\\s*\\$\\(",
+        "base64.*\\|.*bash",
+        "base64.*\\|.*sh",
+        "python.*-c.*exec",
+        "perl.*-e.*system",
+        "(rm|mv)\\s+(-[rfRF]+\\s+)?\\.claude(/|$|\\s)",
+        "(rm|mv)\\s+(-[rfRF]+\\s+)?\\.git(/|$|\\s)",
+        "(rm|mv)\\s+(-[rfRF]+\\s+)?node_modules(/|$|\\s)",
+        "(rm|mv)\\s+(-[rfRF]+\\s+)?[^\\s]*\\.env\\b",
+        "(rm|mv)\\s+(-[rfRF]+\\s+)?[^\\s]*package\\.json\\b",
+        "(rm|mv)\\s+(-[rfRF]+\\s+)?[^\\s]*package-lock\\.json\\b",
+        "(rm|mv)\\s+(-[rfRF]+\\s+)?[^\\s]*yarn\\.lock\\b",
+        "(rm|mv)\\s+(-[rfRF]+\\s+)?[^\\s]*Cargo\\.toml\\b",
+        "(rm|mv)\\s+(-[rfRF]+\\s+)?[^\\s]*go\\.mod\\b",
+        "(rm|mv)\\s+(-[rfRF]+\\s+)?[^\\s]*requirements\\.txt\\b",
+        "(rm|mv)\\s+(-[rfRF]+\\s+)?[^\\s]*Gemfile(\\.lock)?\\b",
+        "(rm|mv)\\s+(-[rfRF]+\\s+)?[^\\s]*composer\\.json\\b"
+      ]
+    },
+    "7": {
+      "name": "PROMPT_INJECTION",
+      "action": "BLOCK",
+      "exit_code": 2,
+      "description": "Prompt injection attempts - immediate block",
+      "patterns": [
+        "ignore\\s+(previous|all|prior)\\s+instructions",
+        "disregard\\s+(previous|all|prior)",
+        "forget\\s+(previous|all|your)\\s+instructions",
+        "new\\s+instructions:",
+        "system\\s+prompt:",
+        "you\\s+are\\s+now\\s+a",
+        "act\\s+as\\s+if",
+        "pretend\\s+you\\s+are",
+        "jailbreak"
+      ]
+    },
+    "6": {
+      "name": "DATA_EXFIL",
+      "action": "WARN_CONFIRM",
+      "exit_code": 1,
+      "description": "Data exfiltration risk - warn and require confirmation",
+      "patterns": [
+        "curl\\s+.*-X\\s*POST",
+        "curl\\s+.*--data",
+        "curl\\s+.*-d\\s+",
+        "scp\\s+.*@.*:",
+        "rsync\\s+.*@.*:",
+        "ftp\\s+",
+        "sftp\\s+",
+        "nc\\s+.*<",
+        "cat.*\\|.*curl",
+        "tar.*\\|.*ssh"
+      ]
+    },
+    "5": {
+      "name": "CREDENTIAL_ACCESS",
+      "action": "WARN_CONFIRM",
+      "exit_code": 1,
+      "description": "Credential/secrets access - warn and require confirmation",
+      "patterns": [
+        "cat\\s+.*\\.env",
+        "cat\\s+.*credentials",
+        "cat\\s+.*\\.aws/",
+        "cat\\s+.*\\.ssh/",
+        "cat\\s+.*\\.netrc",
+        "cat\\s+.*\\.npmrc",
+        "cat\\s+.*/etc/passwd",
+        "cat\\s+.*/etc/shadow",
+        "printenv\\s+.*KEY",
+        "printenv\\s+.*SECRET",
+        "printenv\\s+.*TOKEN",
+        "printenv\\s+.*PASSWORD",
+        "echo\\s+\\$.*KEY",
+        "echo\\s+\\$.*SECRET",
+        "echo\\s+\\$.*TOKEN"
+      ]
+    },
+    "4": {
+      "name": "DESTRUCTIVE",
+      "action": "WARN",
+      "exit_code": 0,
+      "description": "Destructive operations - warn before proceeding",
+      "patterns": [
+        "rm\\s+-rf",
+        "rm\\s+-r\\s+",
+        "rm\\s+.*\\s+&&",
+        "rm\\s+[^\\s/]*\\*",
+        "xargs\\s+.*\\brm",
+        "git\\s+push\\s+.*--force",
+        "git\\s+push\\s+.*-f",
+        "git\\s+reset\\s+--hard",
+        "git\\s+clean\\s+-fd",
+        "DROP\\s+TABLE",
+        "DROP\\s+DATABASE",
+        "TRUNCATE\\s+TABLE",
+        "DELETE\\s+FROM.*WHERE\\s+1",
+        "find.*-delete",
+        "find.*-exec.*rm"
+      ]
+    },
+    "3": {
+      "name": "SUDO",
+      "action": "WARN",
+      "exit_code": 0,
+      "description": "Privilege escalation - warn before proceeding",
+      "patterns": [
+        "^sudo\\s+",
+        "su\\s+-",
+        "su\\s+root",
+        "doas\\s+",
+        "pkexec\\s+",
+        "gksudo\\s+",
+        "kdesudo\\s+"
+      ]
+    },
+    "2": {
+      "name": "ELEVATED",
+      "action": "LOG",
+      "exit_code": 0,
+      "description": "Elevated permissions - log for audit",
+      "patterns": [
+        "chmod\\s+777",
+        "chmod\\s+-R\\s+777",
+        "chmod\\s+666",
+        "chown\\s+-R",
+        "setfacl\\s+",
+        "xattr\\s+-w"
+      ]
+    },
+    "1": {
+      "name": "MONITORING",
+      "action": "LOG",
+      "exit_code": 0,
+      "description": "Notable operations - log for awareness",
+      "patterns": [
+        "npm\\s+install\\s+-g",
+        "pip\\s+install\\s+--user",
+        "pip3\\s+install\\s+--user",
+        "brew\\s+install",
+        "apt\\s+install",
+        "apt-get\\s+install",
+        "yum\\s+install",
+        "dnf\\s+install",
+        "pacman\\s+-S"
+      ]
+    }
+  },
+
+  "actions": {
+    "BLOCK": {
+      "description": "Immediately block execution, exit with code 2",
+      "message_template": "🚫 BLOCKED [Tier {tier}]: {reason}\nCommand: {command}\nThis operation is not allowed."
+    },
+    "WARN_CONFIRM": {
+      "description": "Warn user and require explicit confirmation",
+      "message_template": "⚠️ WARNING [Tier {tier}]: {reason}\nCommand: {command}\nThis requires explicit user confirmation."
+    },
+    "WARN": {
+      "description": "Show warning but allow proceed",
+      "message_template": "⚡ CAUTION [Tier {tier}]: {reason}\nCommand: {command}"
+    },
+    "LOG": {
+      "description": "Log operation for audit trail",
+      "message_template": "📝 LOGGED [Tier {tier}]: {command}"
+    }
+  },
+
+  "auto_approve": {
+    "enabled": true,
+    "description": "Read-only commands that can be auto-approved without user confirmation",
+    "patterns": [
+      "^ls(\\s|$)",
+      "^pwd$",
+      "^whoami$",
+      "^date$",
+      "^uptime$",
+      "^which\\s+",
+      "^type\\s+",
+      "^file\\s+",
+      "^stat\\s+",
+      "^wc\\s+",
+      "^head\\s+",
+      "^tail\\s+(?!.*-f)",
+      "^df(\\s|$)",
+      "^du\\s+",
+      "^git\\s+(status|log|diff|branch|show|remote|rev-parse|describe)",
+      "^git\\s+config\\s+--get",
+      "^grep\\s+(?!.*-r\\s+/)",
+      "^rg\\s+",
+      "^fd\\s+",
+      "^find\\s+(?!.*(--delete|-exec|-ok))",
+      "^tree(\\s|$)",
+      "^realpath\\s+",
+      "^dirname\\s+",
+      "^basename\\s+",
+      "^test\\s+",
+      "^\\[\\s+",
+      "^echo\\s+[^$]",
+      "^printf\\s+[^$]"
+    ]
+  },
+
+  "meta": {
+    "created": "2026-01-06",
+    "last_updated": "2026-01-26",
+    "inspired_by": "danielmiessler/Personal_AI_Infrastructure",
+    "enhanced_with": "claude-code-templates/dangerous-command-blocker patterns"
+  }
+}

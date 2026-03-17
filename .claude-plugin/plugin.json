@@ -1,0 +1,14 @@
+{
+  "name": "evolving-lite",
+  "version": "1.0.0",
+  "description": "Self-evolving Claude Code system that learns from corrections, manages context, and improves every session",
+  "author": {
+    "name": "PrimeLine AI",
+    "email": "hello@primeline.cc",
+    "url": "https://primeline.cc"
+  },
+  "homepage": "https://primeline.cc/products/evolving-lite",
+  "repository": "https://github.com/primeline-ai/evolving-lite",
+  "license": "MIT",
+  "keywords": ["memory", "self-evolving", "context-management", "delegation", "hooks", "automation"]
+}

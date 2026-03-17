@@ -1,0 +1,76 @@
+{
+  "version": "1.0",
+  "description": "Maps user input keywords to task types for orchestration",
+  "task_types": {
+    "exploration": {
+      "keywords": ["find", "search", "where is", "show me", "list all", "grep", "look for"],
+      "anti_keywords": ["fix", "change", "update"],
+      "default_model": "haiku",
+      "effort": "low",
+      "description": "Codebase exploration and search tasks"
+    },
+    "debugging": {
+      "keywords": ["bug", "error", "fix", "broken", "crash", "exception", "not working", "debug", "traceback", "fails"],
+      "anti_keywords": ["create", "new", "add feature"],
+      "default_model": "sonnet",
+      "effort": "medium",
+      "description": "Bug investigation and fixing"
+    },
+    "planning": {
+      "keywords": ["plan", "design", "architect", "structure", "strategy", "roadmap", "how should"],
+      "anti_keywords": ["quick", "simple"],
+      "default_model": "sonnet",
+      "effort": "medium",
+      "description": "Project and feature planning"
+    },
+    "implementation": {
+      "keywords": ["build", "implement", "create", "add", "write", "develop", "feature"],
+      "anti_keywords": ["plan", "design", "think about"],
+      "default_model": "sonnet",
+      "effort": "medium",
+      "description": "Feature implementation and coding"
+    },
+    "code_review": {
+      "keywords": ["review", "check", "audit", "quality", "refactor", "improve", "clean up"],
+      "anti_keywords": ["create", "new"],
+      "default_model": "sonnet",
+      "effort": "medium",
+      "description": "Code review and quality improvement"
+    },
+    "research": {
+      "keywords": ["research", "investigate", "learn", "understand", "deep dive", "explore", "analyze"],
+      "anti_keywords": ["fix", "build"],
+      "default_model": "sonnet",
+      "effort": "medium",
+      "description": "Research and investigation tasks"
+    },
+    "security": {
+      "keywords": ["security", "vulnerability", "pentest", "audit security", "injection", "xss", "credentials"],
+      "anti_keywords": [],
+      "default_model": "sonnet",
+      "effort": "high",
+      "description": "Security review and hardening"
+    },
+    "creative": {
+      "keywords": ["brainstorm", "creative", "idea", "improve text", "write copy", "optimize prompt"],
+      "anti_keywords": ["bug", "error", "fix"],
+      "default_model": "sonnet",
+      "effort": "medium",
+      "description": "Creative and text improvement tasks"
+    },
+    "documentation": {
+      "keywords": ["document", "readme", "docs", "explain", "describe", "comment"],
+      "anti_keywords": [],
+      "default_model": "haiku",
+      "effort": "low",
+      "description": "Documentation and explanation"
+    },
+    "simple": {
+      "keywords": ["show", "print", "echo", "what is", "tell me", "quick"],
+      "anti_keywords": ["complex", "deep", "thorough"],
+      "default_model": "haiku",
+      "effort": "low",
+      "description": "Simple queries and quick tasks"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "description": "Context budget and orchestration thresholds",
+  "context_budget": {
+    "warn_threshold": 70,
+    "auto_handoff_threshold": 93,
+    "compaction_reset_threshold": 50,
+    "summary_only_above": 70
+  },
+  "delegation": {
+    "auto_delegate_threshold": 3,
+    "never_delegate_keywords": ["production", "deploy", "payment", "password", "secret"]
+  }
+}

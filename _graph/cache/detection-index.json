@@ -1,0 +1,81 @@
+{
+  "version": "1.0",
+  "description": "Maps natural language to slash commands",
+  "entries": {
+    "debug": {
+      "keywords": ["debug", "bug finden", "fehler suchen", "systematisch debuggen"],
+      "command": "/debug",
+      "confidence_boost": 15
+    },
+    "plan-new": {
+      "keywords": ["plan erstellen", "projekt planen", "plan new", "create plan", "lass uns planen"],
+      "command": "/plan-new",
+      "confidence_boost": 10
+    },
+    "remember": {
+      "keywords": ["merke dir", "remember", "speichere", "merk dir das"],
+      "command": "/remember",
+      "confidence_boost": 10
+    },
+    "whats-next": {
+      "keywords": ["was steht an", "whats next", "naechster schritt", "wo war ich", "weitermachen"],
+      "command": "/whats-next",
+      "confidence_boost": 10
+    },
+    "context-stats": {
+      "keywords": ["context stats", "wie viel context", "context verbrauch", "token usage"],
+      "command": "/context-stats",
+      "confidence_boost": 5
+    },
+    "sparring": {
+      "keywords": ["sparring", "brainstorm", "idee diskutieren", "gegenposition"],
+      "command": "/sparring",
+      "confidence_boost": 10
+    },
+    "think": {
+      "keywords": ["denke nach", "think", "analysiere", "80/20", "first principles"],
+      "command": "/think",
+      "confidence_boost": 5
+    },
+    "evolution": {
+      "keywords": ["was hat sich geaendert", "evolution", "changelog", "system aenderungen"],
+      "command": "/evolution",
+      "confidence_boost": 10
+    },
+    "evolving-update": {
+      "keywords": ["update", "aktualisieren", "neue version", "evolving update"],
+      "command": "/evolving-update",
+      "confidence_boost": 5
+    },
+    "review": {
+      "keywords": ["code review", "review", "pruefe code", "qualitaet checken"],
+      "command": "/review",
+      "confidence_boost": 10
+    },
+    "create-command": {
+      "keywords": ["command erstellen", "neuen command", "slash command erstellen"],
+      "command": "/create-command",
+      "confidence_boost": 5
+    },
+    "create-hook": {
+      "keywords": ["hook erstellen", "neuen hook", "automation erstellen"],
+      "command": "/create-hook",
+      "confidence_boost": 5
+    },
+    "haiku": {
+      "keywords": ["haiku", "schnelles modell", "guenstiges modell"],
+      "command": "/haiku",
+      "confidence_boost": 5
+    },
+    "sonnet": {
+      "keywords": ["sonnet", "standard modell"],
+      "command": "/sonnet",
+      "confidence_boost": 5
+    },
+    "opus": {
+      "keywords": ["opus", "bestes modell", "maximale qualitaet"],
+      "command": "/opus",
+      "confidence_boost": 5
+    }
+  }
+}
